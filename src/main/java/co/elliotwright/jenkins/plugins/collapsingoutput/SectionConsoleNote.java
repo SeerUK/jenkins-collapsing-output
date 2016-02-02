@@ -10,7 +10,6 @@
  */
 package co.elliotwright.jenkins.plugins.collapsingoutput;
 
-import hudson.Extension;
 import hudson.MarkupText;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
@@ -36,9 +35,7 @@ public class SectionConsoleNote extends ConsoleNote<Object> {
             String markup = "<section id='collapsing-section-%s' class='collapsing-section'><span class='collapsing-section__name'>%s</span>";
 
             text.addMarkup(0, String.format(markup, sectionNumber, sectionName));
-        }
-
-        if (kind == Kind.BUILD_SECTION_END) {
+        } else if (kind == Kind.BUILD_SECTION_END) {
             text.addMarkup(0, 0, "", "</section>");
         }
 

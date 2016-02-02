@@ -26,7 +26,7 @@ public class SectionBuildStepListener extends BuildStepListener {
     @Override
     public void started(AbstractBuild build, BuildStep bs, BuildListener listener) {
         try {
-            listener.annotate(new SectionConsoleNote(Kind.BUILD_SECTION_END, getCounter(build)));
+            listener.annotate(new SectionConsoleNote<Object>(Kind.BUILD_SECTION_START, incrementCounter(build)));
         } catch (IOException e) {
             listener.getLogger().println("Unable to insert StepConsoleNote");
         }
@@ -35,7 +35,7 @@ public class SectionBuildStepListener extends BuildStepListener {
     @Override
     public void finished(AbstractBuild build, BuildStep bs, BuildListener listener, boolean canContinue) {
         try {
-            listener.annotate(new SectionConsoleNote(Kind.BUILD_SECTION_START, incrementCounter(build)));
+            listener.annotate(new SectionConsoleNote<Object>(Kind.BUILD_SECTION_END, getCounter(build)));
         } catch (IOException e) {
             listener.getLogger().println("Unable to insert SectionConsoleNote");
         }

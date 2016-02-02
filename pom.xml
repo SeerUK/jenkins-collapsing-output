@@ -11,7 +11,7 @@
     <relativePath/>
   </parent>
   <groupId>co.elliotwright.jenkins.plugins</groupId>
-  <artifactId>collapsing-output</artifactId>
+  <artifactId>collapsingoutput</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
 

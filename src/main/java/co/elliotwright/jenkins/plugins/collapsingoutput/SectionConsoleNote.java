@@ -14,7 +14,7 @@ import hudson.MarkupText;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
 
-public class SectionConsoleNote extends ConsoleNote<Object> {
+public class SectionConsoleNote<T> extends ConsoleNote<T> {
     public enum Kind {
         BUILD_SECTION_START,
         BUILD_SECTION_END
@@ -29,13 +29,13 @@ public class SectionConsoleNote extends ConsoleNote<Object> {
     }
 
     @Override
-    public ConsoleAnnotator annotate(Object context, MarkupText text, int charPos) {
+    public ConsoleAnnotator annotate(T context, MarkupText text, int charPos) {
         if (kind == Kind.BUILD_SECTION_START) {
             String sectionName = "section." + sectionNumber;
             String markup = "<section id='collapsing-section-%s' class='collapsing-section'><span class='collapsing-section__name'>%s</span>";
 
             text.addMarkup(0, String.format(markup, sectionNumber, sectionName));
-        } else if (kind == Kind.BUILD_SECTION_END) {
+        } else {
             text.addMarkup(0, 0, "", "</section>");
         }
 

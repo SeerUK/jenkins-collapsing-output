@@ -1,3 +1,70 @@
-.collapsing-section {
-    background-color: red;
+.console-output {
+    background: #2a2a2a;
+    color: #f1f1f1;
+    counter-reset: console-line-numbers;
+    font-size: 12px;
+    line-height: 1.2;
+    padding: 40px 0 10px;
+    position: relative;
+    white-space: normal;
+}
+
+.console-output:before {
+    background: #444;
+    content: "";
+    display: block;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.console-output:after {
+    background: #2a2a2a;
+    content: "";
+    display: block;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.console-output a {
+    color: #B5DCFE;
+    text-decoration: none;
+}
+
+.console-output pre {
+    white-space: normal;
+}
+
+.console-output a:hover {
+    text-decoration: underline;
+}
+
+.console-output .line {
+    background: #2a2a2a;
+    line-height: 1.6;
+    padding: 0 15px 0 55px;
+    position: relative;
+    white-space: pre-wrap;
+}
+
+.console-output .line:hover {
+    background: #444;
+}
+
+.console-output .line .linenumber:after {
+    color: #666;
+    content: counter(console-line-numbers);
+    counter-increment: console-line-numbers;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 45px;
+    text-align: right;
 }

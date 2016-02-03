@@ -35,13 +35,6 @@ public class NewlineConsoleLogFilter extends ConsoleLogFilter {
             private static final int CHAR_LF = 0x0a; // 10
             private static final int CHAR_CR = 0x0d; // 13
             private static final int CHAR_BRACE_L = 0x5b; // 91
-//
-//            @Override
-//            public void write(byte[] b, int off, int len) throws IOException {
-////                if (off != 0 && len > 1 && b[0] != LF) {
-//                    super.write(b, off, len);
-////                }
-//            }
 
             @Override
             protected void eol(byte[] b, int len) throws IOException {
@@ -50,6 +43,10 @@ public class NewlineConsoleLogFilter extends ConsoleLogFilter {
 
                     if (b[3] == CHAR_LF || b[3] == CHAR_CR) {
                         b[3] = CHAR_NULL;
+                    }
+
+                    if (b[4] == CHAR_LF || b[4] == CHAR_CR) {
+                        b[4] = CHAR_NULL;
                     }
                 }
 

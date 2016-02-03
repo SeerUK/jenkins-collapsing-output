@@ -54,6 +54,7 @@
 
 .console-output .line.line--command {
     color: #aa759f;
+    font-weight: bold;
 }
 
 .console-output .line:hover {

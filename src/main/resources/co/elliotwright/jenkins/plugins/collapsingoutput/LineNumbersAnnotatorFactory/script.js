@@ -25,6 +25,7 @@ function doStripNewLines() {
 
 function doStripNewLine($el) {
     $el.html($el.html().replace(/^\n/, ""));
+    $el.html($el.html().replace(/\n$/, ""));
 
     if (!$el.html().length) {
         $el.text(" ");

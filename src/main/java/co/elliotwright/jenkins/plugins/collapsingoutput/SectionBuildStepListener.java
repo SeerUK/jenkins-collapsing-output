@@ -11,7 +11,6 @@
 
 package co.elliotwright.jenkins.plugins.collapsingoutput;
 
-import co.elliotwright.jenkins.plugins.collapsingoutput.SectionConsoleNote.Kind;
 import hudson.Extension;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
@@ -20,25 +19,21 @@ import hudson.tasks.BuildStep;
 
 import java.io.IOException;
 
-@Extension
+@Extension(ordinal = 200)
+@SuppressWarnings("unused")
 public class SectionBuildStepListener extends BuildStepListener {
 
     @Override
     public void started(AbstractBuild build, BuildStep bs, BuildListener listener) {
         try {
-            listener.annotate(new SectionConsoleNote<Object>(Kind.BUILD_SECTION_START, incrementCounter(build)));
+            listener.annotate(new SectionConsoleNote<Object>(incrementCounter(build)));
         } catch (IOException e) {
-            listener.getLogger().println("Unable to insert StepConsoleNote");
+            listener.getLogger().println("Unable to insert SectionConsoleNote");
         }
     }
 
     @Override
     public void finished(AbstractBuild build, BuildStep bs, BuildListener listener, boolean canContinue) {
-        try {
-            listener.annotate(new SectionConsoleNote<Object>(Kind.BUILD_SECTION_END, getCounter(build)));
-        } catch (IOException e) {
-            listener.getLogger().println("Unable to insert SectionConsoleNote");
-        }
     }
 
     private SectionBuildSectionAction getAction(AbstractBuild build) {

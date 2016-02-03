@@ -19,7 +19,7 @@ import java.text.MessageFormat;
 
 public class LineNumbersAnnotator extends ConsoleAnnotator<Object> {
     private int calls = 0;
-    private static final long serialVersionUid = 1L;
+    private static final long serialVersionUID = 1L;
     private long offset;
 
     public LineNumbersAnnotator(long offset) {
@@ -32,30 +32,32 @@ public class LineNumbersAnnotator extends ConsoleAnnotator<Object> {
             return this;
         }
 
-        Run r = (Run)context;
-        long start;
+        String startTemplate = "<div class=\"line\"><span>";
+        String endTemplate = "</span></div>";
+
+        Run run = (Run) context;
+
+        long start = offset;
+        int lineEnd = text.length() - 1;
 
         if (offset < 0) {
-            start = r.getLogFile().length() + offset;
-        } else {
-            start = offset;
+            start = run.getLogFile().length() + offset;
         }
 
-        // only annotate if we are handling the full log
         if (start <= 0) {
-            int end = text.length() - 1;
+            // Only show actual line number if we are starting from line 1
+            startTemplate += "<a class=\"linenumber\" id=\"L{0}\" href=\"#L{0}\"></a>";
+        } else {
+            startTemplate += "<a class=\"linenumber linenumber--unknown\" id=\"L{0}\" href=\"#L{0}\"></a>";
+        }
 
-            String startTemplate = "<div class=\"line\"><a class=\"linenumber\" id=\"L{0}\" href=\"#L{0}\"></a><span>";
-            String endTemplate = "</span></div>";
+        calls++;
 
-            calls++;
-
-            if (text.length() > 1) {
-                text.addMarkup(0, 0, "", MessageFormat.format(startTemplate, calls));
-                text.addMarkup(end, end, "", endTemplate);
-            } else {
-                text.addMarkup(0, text.length(), MessageFormat.format(startTemplate, calls), endTemplate);
-            }
+        if (text.length() > 1) {
+            text.addMarkup(0, 0, "", MessageFormat.format(startTemplate, calls));
+            text.addMarkup(lineEnd, lineEnd, "", endTemplate);
+        } else {
+            text.addMarkup(0, text.length(), MessageFormat.format(startTemplate, calls), endTemplate);
         }
 
         return this;

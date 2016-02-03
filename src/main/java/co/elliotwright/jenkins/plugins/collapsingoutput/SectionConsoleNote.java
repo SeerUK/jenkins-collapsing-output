@@ -15,29 +15,18 @@ import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
 
 public class SectionConsoleNote<T> extends ConsoleNote<T> {
-    public enum Kind {
-        BUILD_SECTION_START,
-        BUILD_SECTION_END
-    }
-
-    private Kind kind;
     private int sectionNumber;
 
-    public SectionConsoleNote(Kind kind, int sectionNumber) {
-        this.kind = kind;
+    public SectionConsoleNote(int sectionNumber) {
         this.sectionNumber = sectionNumber;
     }
 
     @Override
     public ConsoleAnnotator annotate(T context, MarkupText text, int charPos) {
-        if (kind == Kind.BUILD_SECTION_START) {
-            String sectionName = "section." + sectionNumber;
-            String markup = "<section id='collapsing-section-%s' class='collapsing-section'><span class='collapsing-section__name'>%s</span>";
+        String sectionName = "step." + sectionNumber;
+        String markup = "<span class='collapsing-section__start'>%s</span>";
 
-            text.addMarkup(0, String.format(markup, sectionNumber, sectionName));
-        } else {
-            text.addMarkup(0, 0, "", "</section>");
-        }
+        text.addMarkup(0, String.format(markup, sectionName));
 
         // We don't have anything to do with the next line being annotated
         return null;

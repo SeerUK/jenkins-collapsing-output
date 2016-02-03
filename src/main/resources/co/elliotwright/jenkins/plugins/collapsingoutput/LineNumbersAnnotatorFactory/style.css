@@ -68,3 +68,18 @@
     width: 45px;
     text-align: right;
 }
+
+.console-output .line .linenumber.linenumber--unknown:after {
+    content: "???";
+}
+
+.collapsing-section__start {
+    background: #666;
+    border-radius: 20px;
+    color: #ccc;
+    font-size: 10px;
+    line-height: 1;
+    padding: 2px 5px 4px;
+    position: absolute;
+    right: 10px;
+}

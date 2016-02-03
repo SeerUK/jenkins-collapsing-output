@@ -17,7 +17,6 @@ import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
 @Extension(ordinal = -100)
-@SuppressWarnings("unused")
 public class LineNumbersAnnotatorFactory extends ConsoleAnnotatorFactory<Object> {
     @Override
     public ConsoleAnnotator<Object> newInstance(Object context) {

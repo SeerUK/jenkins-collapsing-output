@@ -52,6 +52,10 @@
     white-space: pre-wrap;
 }
 
+.console-output .line.line--command {
+    color: #aa759f;
+}
+
 .console-output .line:hover {
     background: #444;
 }

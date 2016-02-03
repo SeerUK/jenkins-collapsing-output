@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-package co.elliotwright.jenkins.plugins.collapsingoutput;
+package co.elliotwright.jenkins.plugins.styledconsole;
 
 import hudson.model.InvisibleAction;
 

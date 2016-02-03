@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-package co.elliotwright.jenkins.plugins.collapsingoutput;
+package co.elliotwright.jenkins.plugins.styledconsole;
 
 import hudson.console.ConsoleLogFilter;
 import hudson.console.LineTransformationOutputStream;

@@ -9,20 +9,21 @@
  * file that was distributed with this source code.
  */
 
-package co.elliotwright.jenkins.plugins.collapsingoutput;
+package co.elliotwright.jenkins.plugins.styledconsole;
 
 import hudson.MarkupText;
 import hudson.console.ConsoleAnnotator;
 import hudson.model.Run;
 
 import java.text.MessageFormat;
+import java.util.StringJoiner;
 
-public class LineNumbersAnnotator extends ConsoleAnnotator<Object> {
+public class LineAnnotator extends ConsoleAnnotator<Object> {
     private int calls = 0;
     private static final long serialVersionUID = 1L;
     private long offset;
 
-    public LineNumbersAnnotator(long offset) {
+    public LineAnnotator(long offset) {
         this.offset = offset;
     }
 
@@ -31,9 +32,6 @@ public class LineNumbersAnnotator extends ConsoleAnnotator<Object> {
         if (!(context instanceof Run)) {
             return this;
         }
-
-        String startTemplate = "<div class=\"line\"><span>";
-        String endTemplate = "</span></div>";
 
         Run run = (Run) context;
 
@@ -44,12 +42,24 @@ public class LineNumbersAnnotator extends ConsoleAnnotator<Object> {
             start = run.getLogFile().length() + offset;
         }
 
-        if (start <= 0) {
+        StringJoiner lineClasses = new StringJoiner(" ");
+        StringJoiner lineNumberClasses = new StringJoiner(" ");
+
+        if (start > 0) {
             // Only show actual line number if we are starting from line 1
-            startTemplate += "<a class=\"linenumber\" id=\"L{0}\" href=\"#L{0}\"></a>";
-        } else {
-            startTemplate += "<a class=\"linenumber linenumber--unknown\" id=\"L{0}\" href=\"#L{0}\"></a>";
+            lineNumberClasses.add("linenumber--unknown");
         }
+
+        String lineText = text.getText();
+
+        if (lineText.startsWith("+ ") || lineText.startsWith(" > ")) {
+            lineClasses.add("line--command");
+        }
+
+        String startTemplate = "<div class=\"line " + lineClasses.toString() + "\"><span>";
+        String endTemplate = "</span></div>";
+
+        startTemplate += "<a class=\"linenumber " + lineNumberClasses.toString() + "\" id=\"L{0}\" href=\"#L{0}\"></a>";
 
         calls++;
 

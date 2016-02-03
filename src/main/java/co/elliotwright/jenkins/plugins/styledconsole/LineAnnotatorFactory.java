@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-package co.elliotwright.jenkins.plugins.collapsingoutput;
+package co.elliotwright.jenkins.plugins.styledconsole;
 
 import hudson.Extension;
 import hudson.console.ConsoleAnnotator;
@@ -16,12 +16,13 @@ import hudson.console.ConsoleAnnotatorFactory;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
-@Extension(ordinal = -100)
-public class LineNumbersAnnotatorFactory extends ConsoleAnnotatorFactory<Object> {
+@Extension
+@SuppressWarnings("unused")
+public class LineAnnotatorFactory extends ConsoleAnnotatorFactory<Object> {
     @Override
     public ConsoleAnnotator<Object> newInstance(Object context) {
         long offset = getOffset(Stapler.getCurrentRequest());
-        return new LineNumbersAnnotator(offset);
+        return new LineAnnotator(offset);
     }
 
     /**
@@ -35,14 +36,17 @@ public class LineNumbersAnnotatorFactory extends ConsoleAnnotatorFactory<Object>
      */
     private static long getOffset(StaplerRequest request) {
         String path = request.getPathInfo();
+
         if (path == null) {
             // JENKINS-16438
             path = request.getServletPath();
         }
+
         if (path.endsWith("/consoleFull")) {
             // Displaying the full log of a completed build.
             return 0;
         }
+
         if (path.endsWith("/console")) {
             // Displaying the tail of the log of a completed build.
             // This duplicates code found in /hudson/model/Run/console.jelly
@@ -50,9 +54,13 @@ public class LineNumbersAnnotatorFactory extends ConsoleAnnotatorFactory<Object>
             String threshold = System.getProperty("hudson.consoleTailKB", "150");
             return -(Long.parseLong(threshold) * 1024);
         }
+
         // Displaying the log of a build in progress.
         // The start parameter is documented on the build's remote API page.
         String startParameter = request.getParameter("start");
-        return startParameter == null ? 0 : Long.parseLong(startParameter);
+        
+        return startParameter != null
+            ? Long.parseLong(startParameter)
+            : 0;
     }
 }
